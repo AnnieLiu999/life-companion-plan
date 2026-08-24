@@ -1,0 +1,40 @@
+{
+  "date": "示例数据（请通过「今日财经」同步或每日自动化更新后替换）",
+  "updatedAt": "",
+  "markets": {
+    "a_share": { "label": "A股", "indices": [{ "name": "上证指数", "value": 0, "change": 0 }], "highlights": ["示例数据"] },
+    "us_stock": { "label": "美股", "indices": [{ "name": "标普500", "value": 0, "change": 0 }], "highlights": ["示例数据"] },
+    "hk_stock": { "label": "港股", "indices": [{ "name": "恒生指数", "value": 0, "change": 0 }], "highlights": ["示例数据"] },
+    "asia_pacific": { "label": "日韩", "indices": [{ "name": "日经225", "value": 0, "change": 0 }], "highlights": ["示例数据"] },
+    "europe": { "label": "欧洲", "indices": [{ "name": "STOXX50", "value": 0, "change": 0 }], "highlights": ["示例数据"] }
+  },
+  "commodities": {
+    "gold": { "label": "现货黄金", "value": 0, "unit": "美元/盎司", "change": 0 },
+    "gold_cn": { "label": "国内金价", "value": 0, "unit": "元/克", "change": 0 },
+    "silver": { "label": "白银", "value": 0, "unit": "美元/盎司", "change": 0 },
+    "wti_oil": { "label": "WTI原油", "value": 0, "unit": "美元/桶", "change": 0 },
+    "brent_oil": { "label": "布伦特原油", "value": 0, "unit": "美元/桶", "change": 0 },
+    "copper": { "label": "铜", "value": 0, "unit": "美元/吨", "change": 0 },
+    "aluminum": { "label": "铝", "value": 0, "unit": "美元/吨", "change": 0 }
+  },
+  "currencies": {
+    "usd_index": { "label": "美元指数", "value": 0, "change": 0 },
+    "usd_cny_onshore": { "label": "美元/在岸人民币", "value": 0, "change": 0 },
+    "usd_cny_offshore": { "label": "美元/离岸人民币", "value": 0, "change": 0 },
+    "usd_jpy": { "label": "美元/日元", "value": 0, "change": 0 }
+  },
+  "monetary_policy": {
+    "fed": { "label": "美联储", "rate": "", "action": "示例数据", "details": "" },
+    "pboc": { "label": "中国央行", "rate": "", "action": "示例数据", "details": "" },
+    "boj": { "label": "日本央行", "rate": "", "action": "示例数据", "details": "" }
+  },
+  "key_events": [
+    { "title": "示例事件（请同步真实数据后替换）", "impact": "medium", "market": "示例", "summary": "这是占位示例数据，不包含任何个人隐私。", "impact_on_you": "—" }
+  ],
+  "volatility_alerts": [],
+  "ai_summary": {
+    "headline": "示例数据 · 请通过「今日财经」同步获取真实资讯",
+    "key_points": ["这是占位示例，非真实市场数据"],
+    "actionable": ["示例：运行数据同步脚本或等待每日自动化更新后查看真实内容"]
+  }
+}

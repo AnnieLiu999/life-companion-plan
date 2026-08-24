@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精灵伴侣成长计划</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">❀</span>
+                    <span class="logo-text">精灵伴侣成长计划</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <span class="nav-icon">⊞</span>
+                    <span class="nav-label">仪表盘</span>
+                </a>
+                <a href="#" class="nav-item" data-view="finance">
+                    <span class="nav-icon">¥</span>
+                    <span class="nav-label">财务管理</span>
+                </a>
+                <a href="#" class="nav-item" data-view="fitness">
+                    <span class="nav-icon">♥</span>
+                    <span class="nav-label">运动健康</span>
+                </a>
+                <a href="#" class="nav-item" data-view="tarot">
+                    <span class="nav-icon">✦</span>
+                    <span class="nav-label">塔罗客户</span>
+                </a>
+                <a href="#" class="nav-item" data-view="minimalism">
+                    <span class="nav-icon">◇</span>
+                    <span class="nav-label">入手+断舍离</span>
+                </a>
+                <a href="#" class="nav-item" data-view="reading">
+                    <span class="nav-icon">▤</span>
+                    <span class="nav-label">读书进度</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="data-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">数据本地存储</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 顶部栏 -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 id="page-title">仪表盘</h1>
+                </div>
+                <div class="topbar-right">
+                    <span id="current-date"></span>
+                </div>
+            </header>
+
+            <!-- 视图容器 -->
+            <div class="view-container">
+                <!-- 仪表盘视图 -->
+                <div id="view-dashboard" class="view active">
+                    <div class="dashboard-grid">
+                        <!-- 财务概览卡片 -->
+                        <div class="dash-card dash-card-finance">
+                            <div class="dash-card-header">
+                                <h3>财务总览</h3>
+                                <div class="dash-card-actions">
+                                    <button class="privacy-toggle-btn" id="dash-privacy-toggle" onclick="PrivacyMode.toggle()" title="显示/隐藏财务信息">
+                                        <span class="privacy-icon-show">👁️</span>
+                                        <span class="privacy-icon-hide">🙈</span>
+                                    </button>
+                                    <span class="dash-card-link" data-view="finance">详情 →</span>
+                                </div>
+                            </div>
+                            <div class="dash-card-body" id="dash-finance-summary">
+                                <div class="dash-metric">
+                                    <span class="metric-label">净资产</span>
+                                    <span class="metric-value" id="dash-net-worth">--</span>
+                                </div>
+                                <div class="dash-metric">
+                                    <span class="metric-label">月度变动</span>
+                                    <span class="metric-value" id="dash-monthly-change">--</span>
+                                </div>
+                                <div class="dash-metric">
+                                    <span class="metric-label">目标进度</span>
+                                    <span class="metric-value" id="dash-target-progress">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 运动概览卡片 -->
+                        <div class="dash-card dash-card-fitness">
+                            <div class="dash-card-header">
+                                <h3>运动健康</h3>
+                                <span class="dash-card-link" data-view="fitness">详情 →</span>
+                            </div>
+                            <div class="dash-card-body" id="dash-fitness-summary">
+                                <div class="dash-metric">
+                                    <span class="metric-label">本周训练</span>
+                                    <span class="metric-value" id="dash-weekly-workouts">--</span>
+                                </div>
+                                <div class="dash-metric">
+                                    <span class="metric-label">本周时长</span>
+                                    <span class="metric-value" id="dash-weekly-duration">--</span>
+                                </div>
+                                <div class="dash-metric">
+                                    <span class="metric-label">当前体重</span>
+                                    <span class="metric-value" id="dash-current-weight">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 塔罗概览卡片 -->
+                        <div class="dash-card dash-card-tarot">
+                            <div class="dash-card-header">
+                                <h3>塔罗客户</h3>
+                                <span class="dash-card-link" data-view="tarot">详情 →</span>
+                            </div>
+                            <div class="dash-card-body" id="dash-tarot-summary">
+                                <div class="dash-metric">
+                                    <span class="metric-label">客户总数</span>
+                                    <span class="metric-value" id="dash-clients-count">--</span>
+                                </div>
+                                <div class="dash-metric">
+                                    <span class="metric-label">占卜次数</span>
+                                    <span class="metric-value" id="dash-readings-count">--</span>
+                                </div>
+                                <div class="dash-metric">
+                                    <span class="metric-label">待跟进</span>
+                                    <span class="metric-value" id="dash-pending-followup">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 智能建议区 -->
+                    <div class="dashboard-advice">
+                        <h3>智能建议</h3>
+                        <div id="dash-advice-list" class="advice-list">
+                            <div class="advice-empty">暂无建议，开始录入数据后将为你生成个性化建议</div>
+                        </div>
+                    </div>
+
+                    <!-- 近期活动 -->
+                    <div class="dashboard-activity">
+                        <h3>近期活动</h3>
+                        <div id="dash-activity-list" class="activity-list">
+                            <div class="activity-empty">暂无活动记录</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 财务视图 -->
+                <div id="view-finance" class="view">
+                    <!-- Tab 导航 -->
+                    <div class="fin-tabs">
+                        <button class="fin-tab active" data-tab="overview" onclick="FinanceModule.switchTab('overview')">总览</button>
+                        <button class="fin-tab" data-tab="reconcile" onclick="FinanceModule.switchTab('reconcile')">月度对账</button>
+                        <button class="fin-tab" data-tab="accounts" onclick="FinanceModule.switchTab('accounts')">账户管理</button>
+                        <button class="fin-tab" data-tab="holdings" onclick="FinanceModule.switchTab('holdings')">持仓明细</button>
+                        <button class="fin-tab" data-tab="income" onclick="FinanceModule.switchTab('income')">收入记录</button>
+                        <button class="fin-tab" data-tab="transactions" onclick="FinanceModule.switchTab('transactions')">交易记录</button>
+                        <button class="fin-tab" data-tab="news" onclick="FinanceModule.switchTab('news')">今日财经</button>
+                    </div>
+
+                    <!-- Tab: 总览 -->
+                    <div class="fin-tab-content active" id="fin-tab-overview">
+                        <!-- 净资产概览 -->
+                        <div class="finance-overview-wrapper">
+                            <button class="privacy-toggle-btn privacy-toggle-float" id="fin-privacy-toggle" onclick="PrivacyMode.toggle()" title="显示/隐藏财务信息">
+                                <span class="privacy-icon-show">👁️</span>
+                                <span class="privacy-icon-hide">🙈</span>
+                            </button>
+                        <div class="finance-overview">
+                            <div class="overview-card">
+                                <span class="overview-label">总资产</span>
+                                <span class="overview-value" id="fin-total-assets">¥0</span>
+                            </div>
+                            <div class="overview-card">
+                                <span class="overview-label">总负债</span>
+                                <span class="overview-value text-down" id="fin-total-debts">¥0</span>
+                            </div>
+                            <div class="overview-card">
+                                <span class="overview-label">净资产</span>
+                                <span class="overview-value" id="fin-net-worth">¥0</span>
+                            </div>
+                            <div class="overview-card">
+                                <span class="overview-label">距目标</span>
+                                <span class="overview-value" id="fin-target-gap">¥0</span>
+                            </div>
+                        </div>
+                        </div>
+
+                        <!-- 目标进度条 -->
+                        <div class="target-progress-section">
+                            <div class="target-progress-header">
+                                <span>财富自由目标</span>
+                                <span id="fin-target-text">¥0 / ¥2,000,000</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="fin-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="target-progress-footer">
+                                <span id="fin-last-reconcile">上次对账: --</span>
+                                <span id="fin-monthly-change" class="target-change">月度变动: --</span>
+                            </div>
+                        </div>
+
+                        <!-- 资产流动性分类 -->
+                        <div class="liquidity-breakdown">
+                            <div class="liquidity-card liquidity-liquid">
+                                <div class="liquidity-card-header">
+                                    <span class="liquidity-dot" style="background:#2563eb;"></span>
+                                    <span>流动资产（可随时支配）</span>
+                                </div>
+                                <div class="liquidity-value" id="fin-liquid-assets">¥0</div>
+                            </div>
+                            <div class="liquidity-card liquidity-restricted">
+                                <div class="liquidity-card-header">
+                                    <span class="liquidity-dot" style="background:#94a3b8;"></span>
+                                    <span>限制性资产（退休后支取）</span>
+                                </div>
+                                <div class="liquidity-value" id="fin-restricted-assets">¥0</div>
+                            </div>
+                        </div>
+
+                        <!-- 图表区 -->
+                        <div class="chart-row">
+                            <div class="chart-card chart-card-large">
+                                <h3>净资产趋势</h3>
+                                <canvas id="chart-networth-trend"></canvas>
+                            </div>
+                            <div class="chart-card chart-card-large">
+                                <h3>资产分类分布</h3>
+                                <canvas id="chart-asset-allocation"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- 财务建议 -->
+                        <div class="advice-panel">
+                            <h3>财务建议</h3>
+                            <div id="fin-advice-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: 月度对账 -->
+                    <div class="fin-tab-content" id="fin-tab-reconcile">
+                        <div class="module-header">
+                            <div class="module-actions">
+                                <button class="btn btn-primary" onclick="FinanceModule.showReconcileModal()">+ 开始月度对账</button>
+                                <button class="btn btn-secondary" onclick="FinanceModule.showGoalModal()">设置目标</button>
+                            </div>
+                        </div>
+                        <div class="data-section">
+                            <h3>对账历史</h3>
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>总资产</th>
+                                            <th>净资产</th>
+                                            <th>月度变动</th>
+                                            <th>距目标</th>
+                                            <th>进度</th>
+                                            <th>备注</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fin-snapshots-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: 账户管理 -->
+                    <div class="fin-tab-content" id="fin-tab-accounts">
+                        <div class="module-header">
+                            <div class="module-actions">
+                                <button class="btn btn-primary" onclick="FinanceModule.showAccountModal()">+ 添加账户</button>
+                            </div>
+                        </div>
+                        <div id="fin-account-list"></div>
+                    </div>
+
+                    <!-- Tab: 持仓明细 -->
+                    <div class="fin-tab-content" id="fin-tab-holdings">
+                        <div class="module-header">
+                            <div class="module-actions">
+                                <button class="btn btn-primary" onclick="FinanceModule.showHoldingModal()">+ 添加持仓</button>
+                                <button class="btn btn-secondary" onclick="FinanceModule.showTransactionModal()">+ 记录交易</button>
+                            </div>
+                        </div>
+                        <div class="data-section">
+                            <h3>持仓明细</h3>
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>账户</th>
+                                            <th>类别</th>
+                                            <th>代码</th>
+                                            <th>名称</th>
+                                            <th>数量</th>
+                                            <th>成本价</th>
+                                            <th>现价</th>
+                                            <th>市值</th>
+                                            <th>盈亏</th>
+                                            <th>收益率</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fin-holdings-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: 收入记录 -->
+                    <div class="fin-tab-content" id="fin-tab-income">
+                        <div class="module-header">
+                            <div class="module-actions">
+                                <button class="btn btn-primary" onclick="FinanceModule.showIncomeModal()">+ 记录收入</button>
+                            </div>
+                        </div>
+                        <div class="finance-overview">
+                            <div class="overview-card">
+                                <span class="overview-label">本月收入</span>
+                                <span class="overview-value" id="fin-monthly-income">¥0</span>
+                            </div>
+                            <div class="overview-card">
+                                <span class="overview-label">本年收入</span>
+                                <span class="overview-value" id="fin-yearly-income">¥0</span>
+                            </div>
+                        </div>
+                        <div class="data-section">
+                            <h3>收入记录</h3>
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>来源</th>
+                                            <th>金额</th>
+                                            <th>备注</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fin-income-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: 交易记录 -->
+                    <div class="fin-tab-content" id="fin-tab-transactions">
+                        <div class="module-header">
+                            <div class="module-actions">
+                                <button class="btn btn-secondary" onclick="FinanceModule.showTransactionModal()">+ 记录交易</button>
+                            </div>
+                        </div>
+                        <div class="data-section">
+                            <h3>交易记录</h3>
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>代码</th>
+                                            <th>名称</th>
+                                            <th>类型</th>
+                                            <th>数量</th>
+                                            <th>价格</th>
+                                            <th>金额</th>
+                                            <th>手续费</th>
+                                            <th>备注</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fin-transactions-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: 今日财经 -->
+                    <div class="fin-tab-content" id="fin-tab-news">
+                        <div class="news-header">
+                            <div class="news-date-info">
+                                <h3 id="news-date-title">今日财经</h3>
+                                <span class="news-updated" id="news-updated-time"></span>
+                            </div>
+                            <button class="btn btn-primary news-refresh-btn" onclick="FinanceModule.refreshNews()">🔄 刷新资讯</button>
+                        </div>
+
+                        <!-- AI 总结 -->
+                        <div class="news-ai-summary" id="news-ai-summary">
+                            <div class="news-loading">正在加载今日财经资讯...</div>
+                        </div>
+
+                        <!-- 波动预警 -->
+                        <div class="news-alerts" id="news-alerts-section"></div>
+
+                        <!-- 关键数据面板 -->
+                        <div class="news-data-grid" id="news-data-grid"></div>
+
+                        <!-- 重大事件 -->
+                        <div class="news-events" id="news-events-section"></div>
+                    </div>
+                </div>
+
+                <!-- 运动健康视图 -->
+                <div id="view-fitness" class="view">
+                    <div class="module-header">
+                        <div class="module-actions">
+                            <button class="btn btn-primary" onclick="FitnessModule.showBodyMetricModal()">+ 记录身体指标</button>
+                            <button class="btn btn-primary" onclick="FitnessModule.showWorkoutModal()">+ 记录训练</button>
+                            <button class="btn btn-secondary" onclick="FitnessModule.showGoalModal()">+ 设定目标</button>
+                        </div>
+                    </div>
+
+                    <!-- 运动概览 -->
+                    <div class="fitness-overview">
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">本周训练次数</span>
+                            <span class="overview-value" id="fit-weekly-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">本周训练时长</span>
+                            <span class="overview-value" id="fit-weekly-duration">0 min</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">本月训练次数</span>
+                            <span class="overview-value" id="fit-monthly-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">当前体重</span>
+                            <span class="overview-value" id="fit-current-weight">-- kg</span>
+                        </div>
+                    </div>
+
+                    <!-- 图表区 -->
+                    <div class="chart-row">
+                        <div class="chart-card chart-card-large">
+                            <h3>体重趋势</h3>
+                            <canvas id="chart-weight-trend"></canvas>
+                        </div>
+                        <div class="chart-card chart-card-large">
+                            <h3>训练量分布</h3>
+                            <canvas id="chart-workout-distribution"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 训练建议 -->
+                    <div class="advice-panel">
+                        <h3>训练建议</h3>
+                        <div id="fit-training-advice"></div>
+                    </div>
+
+                    <!-- 饮食建议 -->
+                    <div class="advice-panel">
+                        <h3>饮食建议</h3>
+                        <div id="fit-diet-advice"></div>
+                    </div>
+
+                    <!-- 心理调整 -->
+                    <div class="advice-panel">
+                        <h3>心理调整</h3>
+                        <div id="fit-mental-advice"></div>
+                    </div>
+
+                    <!-- 目标追踪 -->
+                    <div class="data-section">
+                        <h3>目标追踪</h3>
+                        <div id="fit-goals-list" class="goals-list"></div>
+                    </div>
+
+                    <!-- 训练记录 -->
+                    <div class="data-section">
+                        <h3>训练记录</h3>
+                        <div class="table-wrapper">
+                            <table class="data-table" id="fit-workouts-table">
+                                <thead>
+                                    <tr>
+                                        <th>日期</th>
+                                        <th>类型</th>
+                                        <th>时长</th>
+                                        <th>强度</th>
+                                        <th>训练内容</th>
+                                        <th>消耗</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fit-workouts-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 身体指标记录 -->
+                    <div class="data-section">
+                        <h3>身体指标记录</h3>
+                        <div class="table-wrapper">
+                            <table class="data-table" id="fit-bodymetrics-table">
+                                <thead>
+                                    <tr>
+                                        <th>日期</th>
+                                        <th>体重(kg)</th>
+                                        <th>体脂率(%)</th>
+                                        <th>肌肉量(kg)</th>
+                                        <th>静息心率</th>
+                                        <th>备注</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fit-bodymetrics-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 塔罗视图 -->
+                <div id="view-tarot" class="view">
+                    <div class="module-header">
+                        <div class="module-actions">
+                            <button class="btn btn-primary" onclick="TarotModule.showClientModal()">+ 添加客户</button>
+                            <button class="btn btn-primary" onclick="TarotModule.showReadingModal()">+ 记录占卜</button>
+                        </div>
+                    </div>
+
+                    <!-- 塔罗概览 -->
+                    <div class="tarot-overview">
+                        <div class="overview-card overview-card-tarot">
+                            <span class="overview-label">客户总数</span>
+                            <span class="overview-value" id="tarot-clients-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-tarot">
+                            <span class="overview-label">占卜总次数</span>
+                            <span class="overview-value" id="tarot-readings-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-tarot">
+                            <span class="overview-label">本月占卜</span>
+                            <span class="overview-value" id="tarot-monthly-readings">0</span>
+                        </div>
+                        <div class="overview-card overview-card-tarot">
+                            <span class="overview-label">待跟进</span>
+                            <span class="overview-value" id="tarot-pending-followup">0</span>
+                        </div>
+                    </div>
+
+                    <!-- 客户搜索 -->
+                    <div class="search-bar">
+                        <input type="text" id="tarot-search" placeholder="搜索客户姓名、备注或占卜问题..." oninput="TarotModule.renderClients()">
+                    </div>
+
+                    <!-- 客户列表 -->
+                    <div class="data-section">
+                        <h3>客户管理</h3>
+                        <div id="tarot-client-list" class="client-list"></div>
+                    </div>
+
+                    <!-- 近期占卜记录 -->
+                    <div class="data-section">
+                        <h3>近期占卜记录</h3>
+                        <div id="tarot-recent-readings" class="reading-list"></div>
+                    </div>
+                </div>
+
+                <!-- 断舍离视图 -->
+                <div id="view-minimalism" class="view">
+                    <div class="module-header">
+                        <div class="module-actions">
+                            <button class="btn btn-primary" onclick="MinimalismModule.showPurchaseModal()">+ 记入手</button>
+                            <button class="btn btn-secondary" onclick="MinimalismModule.showItemModal()">+ 添加使用中</button>
+                            <button class="btn btn-success" onclick="MinimalismModule.showDiscardModal()">+ 记断舍离</button>
+                            <button class="btn btn-secondary" onclick="MinimalismModule.showGoalModal()">+ 设定目标</button>
+                        </div>
+                    </div>
+
+                    <!-- 概览 -->
+                    <div class="fitness-overview">
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">入手记录</span>
+                            <span class="overview-value" id="min-purchase-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">使用中物品</span>
+                            <span class="overview-value" id="min-active-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">累计断舍离</span>
+                            <span class="overview-value" id="min-achievement-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">二手收益</span>
+                            <span class="overview-value" id="min-resale-profit">¥0</span>
+                        </div>
+                    </div>
+
+                    <!-- 入手记录 -->
+                    <div class="data-section">
+                        <h3>入手记录</h3>
+                        <div id="min-purchases-list"></div>
+                    </div>
+
+                    <!-- 使用中的物品 -->
+                    <div class="data-section">
+                        <h3>使用中的物品</h3>
+                        <div id="min-items-list"></div>
+                    </div>
+
+                    <!-- 优先使用目标 -->
+                    <div class="data-section">
+                        <h3>优先使用目标</h3>
+                        <div id="min-goals-list"></div>
+                    </div>
+
+                    <!-- 断舍离记录 -->
+                    <div class="data-section">
+                        <h3>断舍离记录</h3>
+                        <div id="min-achievements-list"></div>
+                    </div>
+                </div>
+
+                <!-- 读书进度视图 -->
+                <div id="view-reading" class="view">
+                    <div class="module-header">
+                        <div class="module-actions">
+                            <button class="btn btn-primary" onclick="ReadingModule.showBookModal()">+ 添加书籍</button>
+                            <button class="btn btn-success" onclick="ReadingModule.syncFromLocal()">📥 同步微信读书书架</button>
+                            <button class="btn btn-secondary" onclick="ReadingModule.showWereadConfigModal()">⚙️ 微信读书设置</button>
+                        </div>
+                    </div>
+
+                    <!-- 微信读书统计面板 -->
+                    <div class="rd-weread-stats-panel" id="rd-weread-stats" style="display:none;">
+                        <div class="rd-weread-stats-header">
+                            <h3>📊 微信读书数据概览</h3>
+                            <span class="rd-weread-sync-time" id="rd-weread-sync-time"></span>
+                        </div>
+                        <div class="rd-weread-stats-grid" id="rd-weread-stats-grid"></div>
+                        <div class="rd-weread-stats-extra" id="rd-weread-stats-extra"></div>
+                    </div>
+
+                    <!-- 概览 -->
+                    <div class="fitness-overview">
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">在读</span>
+                            <span class="overview-value" id="rd-reading-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">已读</span>
+                            <span class="overview-value" id="rd-finished-count">0</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">本周阅读</span>
+                            <span class="overview-value" id="rd-week-minutes">0 min</span>
+                        </div>
+                        <div class="overview-card overview-card-fitness">
+                            <span class="overview-label">今年读完</span>
+                            <span class="overview-value" id="rd-year-count">0 本</span>
+                        </div>
+                    </div>
+
+                    <!-- 书架 -->
+                    <div class="data-section">
+                        <h3>书架</h3>
+                        <div id="rd-bookshelf"></div>
+                    </div>
+
+                    <!-- 阅读记录 -->
+                    <div class="data-section">
+                        <h3>阅读记录</h3>
+                        <div id="rd-reading-log"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 模态框容器 -->
+    <div id="modal-container"></div>
+
+    <!-- Toast 通知 -->
+    <div id="toast-container"></div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/finance.js"></script>
+    <script src="js/fitness.js"></script>
+    <script src="js/tarot.js"></script>
+    <script src="js/minimalism.js"></script>
+    <script src="js/reading.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

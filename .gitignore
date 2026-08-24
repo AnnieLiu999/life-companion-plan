@@ -1,0 +1,26 @@
+# ===== 个人数据（绝不入库）=====
+data/weread-sync.json
+data/shelf_sync.json
+data/weread-shelf-raw.json
+data/weread-readdata-raw.json
+data/readdata_detail.json
+data/finance-news-wechat.md
+
+# ===== 本地运行日志 =====
+*.log
+server.err
+server.log
+
+# ===== 系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# ===== WorkBuddy 项目记忆（含个人隐私，绝不入库）=====
+.workbuddy/
+
+# ===== Python =====
+__pycache__/
+*.pyc
