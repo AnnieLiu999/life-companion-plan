@@ -82,11 +82,11 @@ const Utils = {
         
         // file:// 协议下 fetch 会被浏览器 CORS 策略拦截
         if (protocol === 'file:') {
-            throw new Error('请通过 http://localhost:8090 访问页面，直接打开 HTML 文件(file://)无法加载数据文件');
+            throw new Error('请通过 http(s):// 方式访问（直接双击打开 file:// 会被浏览器 CORS 拦截，无法加载数据文件）');
         }
 
-        // 统一使用绝对路径（确保以 / 开头）
-        const url = path.startsWith('/') ? path : '/' + path;
+        // 使用相对路径，兼容子路径部署（如 GitHub Pages 的 /repo/ 子目录）
+        const url = path.startsWith('/') ? path.slice(1) : path;
 
         const resp = await fetch(url + '?t=' + Date.now(), options);
         if (!resp.ok) {
