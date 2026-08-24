@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "📖 先读 README"
+    url: https://github.com/AnnieLiu999/life-companion-plan#readme
+    about: 运行方式、目录结构、隐私说明请先查阅 README。
+  - name: "💬 使用问题 / 交流"
+    url: https://github.com/AnnieLiu999/life-companion-plan/issues
+    about: 一般性问题、交流、使用反馈请直接开 Issue。
