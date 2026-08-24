@@ -107,4 +107,4 @@ npx serve .
 
 ## 📄 License
 
-[MIT License](./LICENSE) © 2026 刘畅 (AnnieLiu999)
+[MIT License](./LICENSE) © 2026 AnnieLiu999
